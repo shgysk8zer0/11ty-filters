@@ -1,0 +1,39 @@
+{
+  "name": "@shgysk8zer0/11ty-filters",
+  "version": "0.0.2",
+  "description": "A collection of filters for Eleventy",
+  "private": false,
+  "type": "cjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run lint ",
+    "preversion": "npm test",
+    "create:lock": "npm i --package-lock-only",
+    "version:bump": "npm run version:bump:patch",
+    "version:bump:patch": "npm version --no-git-tag-version patch",
+    "version:bump:minor": "npm version --no-git-tag-version minor",
+    "version:bump:major": "npm version --no-git-tag-version major",
+    "lint": "npm run lint:js",
+    "lint:js": "if [ -f .eslintrc.json ]; then eslint .; fi",
+    "fix:js": "eslint. --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shgysk8zer0/11ty-filters.git"
+  },
+  "keywords": [
+    "11ty",
+    "eleventy",
+    "filters"
+  ],
+  "author": "Chris Zuber <admin@kernvalley.us>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shgysk8zer0/11ty-filters/issues"
+  },
+  "homepage": "https://github.com/shgysk8zer0/11ty-filters#readme",
+  "devDependencies": {
+    "eslint": "^8.41.0",
+    "rollup": "^3.22.1"
+  }
+}
