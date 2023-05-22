@@ -3,7 +3,7 @@ const { normalize } = require('node:path');
 const { promises: { readFile }} = require('node:fs');
 const { createHash } = require('node:crypto');
 const { load } = require('js-yaml');
-const { escape: escape_xml } = require('unjucks/src/filters');
+const { escape: escape_xml } = require('nunjucks/src/filters');
 
 const sris = new Map();
 const importCache = new Map();
