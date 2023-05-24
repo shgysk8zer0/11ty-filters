@@ -1,3 +1,4 @@
 .github/
 .eslint*
 .editorconfig
+.nvmrc
