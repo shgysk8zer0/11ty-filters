@@ -1,6 +1,6 @@
 {
   "name": "@shgysk8zer0/11ty-filters",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A collection of filters for Eleventy",
   "private": false,
   "type": "module",
@@ -19,6 +19,7 @@
   "scripts": {
     "test": "npm run lint && npm run build",
     "preversion": "npm test",
+    "prepare": "npm run build",
     "build": "npm run build:js",
     "build:js": "rollup -c rollup.config.js",
     "create:lock": "npm i --package-lock-only",

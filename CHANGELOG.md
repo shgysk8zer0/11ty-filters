@@ -13,6 +13,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.0.5] - 2023-06-10
+
+### Fixed
+- Add missing `prepare` script to build on publish
+
 ## [v0.0.4] - 2023-06-10
 
 ### Added
