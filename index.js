@@ -1,113 +1,59 @@
 /* eslint-env node */
-const { normalize } = require('node:path');
-const { promises: { readFile }} = require('node:fs');
-const { createHash } = require('node:crypto');
-const { load } = require('js-yaml');
-const { escape: escape_xml } = require('nunjucks/src/filters');
+import { escape } from 'nunjucks/src/filters';
+import { imports, scope } from '@shgysk8zer0/importmap';
+import { readFile } from '@shgysk8zer0/npm-utils/fs';
+import {
+	hash, MD5, SHA256, SHA384, SHA512, SRI_ALGO, HEX, BASE64,
+} from '@shgysk8zer0/npm-utils/hash';
 
-const sris = new Map();
-const importCache = new Map();
-const importMapPromise = readFile('_data/importmap.yml', { encoding: 'utf8' })
-	.then(content => load(content));
+import { resolveImport, objectToMap } from '@shgysk8zer0/npm-utils/importmap';
+import { readJSONFile, isJSONFile } from '@shgysk8zer0/npm-utils/json';
+import { readYAMLFile, isYAMLFile } from '@shgysk8zer0/npm-utils/yaml';
 
-const absolute_url = input => {
+const sriCache = new Map();
+
+export const importmap = objectToMap({ imports, scope });
+export const escape_xml = input => escape(input);
+export const read_file = file => readFile(file);
+export const date_to_iso = input => new Date(input).toISOString();
+export const jsonify = input => JSON.stringify(input);
+export const is_array = input => Array.isArray(input);
+export const is_string = input => typeof input === 'string';
+export const fetch_json = url => fetch(url).then(resp => resp.json());
+export const fetch_text = url => fetch(url).then(resp => resp.text());
+export const is_null = input => typeof input === 'object' && Object.is(input, null);
+export const resolve_specifier = input => resolveImport(input, importmap);
+export const sha256 = input => hash(input, { algo: SHA256, output: HEX });
+export const sha384 = input => hash(input, { algo: SHA384, output: HEX });
+export const sha512 = input => hash(input, { algo: SHA512, output: HEX });
+export const md5 = input => hash(input, { algo: MD5, output: HEX });
+
+export async function sri(input) {
+	if (sriCache.has(input)) {
+		return sriCache.get(input);
+	} else {
+		const result = await hash(input, { algo: SRI_ALGO, output: BASE64 });
+		sriCache.set(input, result);
+		return result;
+	}
+}
+
+export function absolute_url(input) {
 	if (typeof process.env.URL === 'string') {
 		return new URL(input, process.env.URL).href;
 	} else {
 		return input;
 	}
-};
+}
 
-const read_file = file => readFile(normalize(file), { encoding: 'utf8' });
-
-const date_to_iso = input => new Date(input).toISOString();
-
-const jsonify = input => JSON.stringify(input);
-
-const is_array = input => Array.isArray(input);
-
-const is_string = input => typeof input === 'string';
-
-const fetch_json = url => fetch(url).then(resp => resp.json());
-
-const fetch_text = url => fetch(url).then(resp => resp.text());
-
-const is_null = input => typeof input === 'object' && Object.is(input, null);
-
-const resolve_specifier =  input => {
-	if (['https:','http:', '//', '/', './', '../'].some(pre => input.startsWith(pre))) {
-		return Promise.resolve(input);
-	} else if (importCache.has(input)) {
-		return Promise.resolve(importCache.get(input));
+export async function loadImportmapFile(file) {
+	if (isJSONFile(file)) {
+		const { imports } = await readJSONFile(file);
+		Object.entries(imports).forEach((key, value) => importmap.set(key, value));
+	} else if (isYAMLFile(file)) {
+		const { imports } = await readYAMLFile(file);
+		Object.entries(imports).forEach((key, value) => importmap.set(key, value));
 	} else {
-		return importMapPromise.then(({ imports }) => {
-			if (imports.hasOwnProperty(input)) {
-				importCache.set(input, imports[input]);
-				return imports[input];
-			} else {
-				let found = false;
-
-				const match = Object.keys(imports).filter(spec => spec.endsWith('/')).reduce((longest, cur) => {
-					if (! found && input.startsWith(cur)) {
-						found = true;
-						return cur;
-					} else if (found && input.startsWith(cur) && cur.length > longest.length) {
-						return cur;
-					} else {
-						return longest;
-					}
-				}, null);
-
-				if (found) {
-					const resolved = input.replace(match, imports[match]);
-					importCache.set(input, resolved);
-					return resolved;
-				} else {
-					throw new TypeError(`${input} could not be mapped`);
-				}
-			}
-		}).catch(console.error);
+		throw new TypeError(`Could not parse ${file}`);
 	}
-};
-
-const sha512 = input => {
-	const hash = createHash('sha512');
-	hash.update(input, 'utf8');
-	return `sha384-${hash.digest('hex')}`;
-};
-
-const sha384 = input => {
-	const hash = createHash('sha384');
-	hash.update(input, 'utf8');
-	return hash.digest('hex');
-};
-
-const sha256 = input => {
-	const hash = createHash('sha256');
-	hash.update(input, 'utf8');
-	return hash.digest('hex');
-};
-
-const md5 = input => {
-	const hash = createHash('md5');
-	hash.update(input, 'utf8');
-	return hash.digest('hex');
-};
-
-const sri = input => {
-	if (sris.has(input)) {
-		return sris.get(input);
-	} else {
-		const hash = createHash('sha384');
-		hash.update(input, 'utf8');
-		const sri = `sha384-${hash.digest('base64')}`;
-		sris.set(input, sri);
-		return sri;
-	}
-};
-
-module.exports = {
-	read_file, resolve_specifier, sha512, sha384, sha256, md5, sri, jsonify,
-	date_to_iso, is_array, is_string, is_null, fetch_json, fetch_text,
-	absolute_url, escape_xml,
-};
+}
