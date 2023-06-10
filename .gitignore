@@ -1,3 +1,7 @@
+*.cjs
+*.map.*
+*.min.*
+
 # Logs
 logs
 *.log

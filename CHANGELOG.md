@@ -13,6 +13,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.0.3] - 2023-06-10
+
+### Added
+- Install `@shgysk8zer0/js-utils`
+
+### Removed
+- Uninstall `eslint` & `rollup`
+
+### Changed
+- Rewite as es module
+- Update `publish` to generate `.cjs` version
+- Use module from `@shgysk8zer0/js-utils` to create most functions
+
 ## [v0.0.2] - 2023-05-21
 
 ### Fixed
