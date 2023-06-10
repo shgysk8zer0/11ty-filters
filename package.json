@@ -1,6 +1,6 @@
 {
   "name": "@shgysk8zer0/11ty-filters",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A collection of filters for Eleventy",
   "private": false,
   "type": "module",
@@ -47,5 +47,8 @@
   "homepage": "https://github.com/shgysk8zer0/11ty-filters#readme",
   "devDependencies": {
     "@shgysk8zer0/js-utils": "^1.0.0"
+  },
+  "dependencies": {
+    "@shgysk8zer0/npm-utils": "^1.0.5"
   }
 }
