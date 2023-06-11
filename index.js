@@ -2,6 +2,7 @@
 import { escape } from 'nunjucks/src/filters';
 import { imports, scope } from '@shgysk8zer0/importmap';
 import { readFile } from '@shgysk8zer0/npm-utils/fs';
+import { isBare } from '@shgysk8zer0/npm-utils/utils';
 import {
 	hash, MD5, SHA256, SHA384, SHA512, SRI_ALGO, HEX, BASE64,
 } from '@shgysk8zer0/npm-utils/hash';
@@ -22,7 +23,7 @@ export const is_string = input => typeof input === 'string';
 export const fetch_json = url => fetch(url).then(resp => resp.json());
 export const fetch_text = url => fetch(url).then(resp => resp.text());
 export const is_null = input => typeof input === 'object' && Object.is(input, null);
-export const resolve_specifier = input => resolveImport(input, importmap);
+export const resolve_specifier = input => isBare(input) ? resolveImport(input, importmap) : input;
 export const sha256 = input => hash(input, { algo: SHA256, output: HEX });
 export const sha384 = input => hash(input, { algo: SHA384, output: HEX });
 export const sha512 = input => hash(input, { algo: SHA512, output: HEX });
@@ -32,7 +33,7 @@ export async function sri(input) {
 	if (sriCache.has(input)) {
 		return sriCache.get(input);
 	} else {
-		const result = await hash(input, { algo: SRI_ALGO, output: BASE64 });
+		const result = `${SRI_ALGO}-${await hash(input, { algo: SRI_ALGO, output: BASE64 })}`;
 		sriCache.set(input, result);
 		return result;
 	}

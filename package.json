@@ -1,6 +1,6 @@
 {
   "name": "@shgysk8zer0/11ty-filters",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A collection of filters for Eleventy",
   "private": false,
   "type": "module",
@@ -47,7 +47,14 @@
   },
   "homepage": "https://github.com/shgysk8zer0/11ty-filters#readme",
   "devDependencies": {
-    "@shgysk8zer0/js-utils": "^1.0.0"
+    "@shgysk8zer0/importmap": "^1.0.2",
+    "@shgysk8zer0/js-utils": "^1.0.0",
+    "nunjucks": "^3.2.4"
+  },
+  "peerDependencies": {
+    "@shgysk8zer0/importmap": "*",
+    "@shgysk8zer0/js-utils": "*",
+    "nunjucks": "*"
   },
   "dependencies": {
     "@shgysk8zer0/npm-utils": "^1.0.5"
