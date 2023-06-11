@@ -1,9 +1,3 @@
----
-title: CHANGELOG
-permalink: /changelog/
-description: List of recent versions and modifications
-layout: page
----
 <!-- markdownlint-disable -->
 # Changelog
 All notable changes to this project will be documented in this file.
@@ -12,6 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [v0.0.6] - 2023-06-10
+
+### Added
+- Add dev & peer dependencies
+
+### Fixed
+- `resolve_specifier` only checks importmap for bare specifiers
+- `sri` now includes the algorithm prefix before the hash
 
 ## [v0.0.5] - 2023-06-10
 
