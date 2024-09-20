@@ -11,15 +11,19 @@
       "import": "./index.js",
       "require": "./index.cjs"
     },
+    "./*.js": {
+      "import": "./*.js",
+      "require": "./*.cjs"
+    },
     "./*": {
       "import": "./*.js",
       "require": "./*.cjs"
     }
   },
   "scripts": {
-    "test": "npm run lint && npm run build",
-    "preversion": "npm test",
-    "prepare": "npm run build",
+    "test": "npm run lint",
+    "preversion": "npm test && npm run build",
+    "prepare": "npm test && npm run build",
     "build": "npm run build:js",
     "build:js": "rollup -c rollup.config.js",
     "lint": "npm run lint:js",
@@ -47,6 +51,7 @@
   },
   "homepage": "https://github.com/shgysk8zer0/11ty-filters#readme",
   "devDependencies": {
+    "@shgysk8zer0/eslint-config": "^1.0.1",
     "@shgysk8zer0/importmap": "^1.2.1",
     "@shgysk8zer0/js-utils": "^1.0.1",
     "nunjucks": "^3.2.4"
