@@ -3,3 +3,4 @@
 .editorconfig
 .nvmrc
 *.config.js
+*.test.js
