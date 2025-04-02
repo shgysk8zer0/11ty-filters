@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.1.1] - 2025-04-02
+
+### Fixed
+- Use own `escape()` since nunjucks is abandoned
+
 ### Changed
 - Update dependencies and config
 
