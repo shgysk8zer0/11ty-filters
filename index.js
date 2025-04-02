@@ -1,15 +1,21 @@
 /* eslint-env node */
-import { escape } from 'nunjucks/src/filters';
 import { imports, scope } from '@shgysk8zer0/importmap';
 import { readFile } from '@shgysk8zer0/npm-utils/fs';
 import { isBare } from '@shgysk8zer0/npm-utils/utils';
+import { resolveImport, objectToMap } from '@shgysk8zer0/npm-utils/importmap';
+import { readJSONFile, isJSONFile } from '@shgysk8zer0/npm-utils/json';
+import { readYAMLFile, isYAMLFile } from '@shgysk8zer0/npm-utils/yaml';
 import {
 	hash, MD5, SHA256, SHA384, SHA512, SRI_ALGO, HEX, BASE64,
 } from '@shgysk8zer0/npm-utils/hash';
 
-import { resolveImport, objectToMap } from '@shgysk8zer0/npm-utils/importmap';
-import { readJSONFile, isJSONFile } from '@shgysk8zer0/npm-utils/json';
-import { readYAMLFile, isYAMLFile } from '@shgysk8zer0/npm-utils/yaml';
+const ESCAPED_PATTERN = /&(?![a-zA-Z\d]{2,5};|#\d{1,3};)/g;
+
+const escape = str => str.toString()
+	.replaceAll(ESCAPED_PATTERN, '&amp;')
+	.replaceAll('<', '&lt;')
+	.replaceAll('>', '&gt;')
+	.replaceAll('"', '&quot;');
 
 const sriCache = new Map();
 
