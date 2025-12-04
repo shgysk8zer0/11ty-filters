@@ -1,5 +1,5 @@
 /* eslint-env node */
-import { imports, scope } from '@shgysk8zer0/importmap';
+import { imports, scopes } from '@shgysk8zer0/importmap';
 import { readFile } from '@shgysk8zer0/npm-utils/fs';
 import { isBare } from '@shgysk8zer0/npm-utils/utils';
 import { resolveImport, objectToMap } from '@shgysk8zer0/npm-utils/importmap';
@@ -19,7 +19,8 @@ const escape = str => str.toString()
 
 const sriCache = new Map();
 
-export const importmap = objectToMap({ imports, scope });
+// Use both versions until mistake is fixed everywhere
+export const importmap = objectToMap({ imports, scope: scopes, scopes });
 export const escape_xml = input => escape(input);
 export const read_file = file => readFile(file);
 export const date_to_iso = input => new Date(input).toISOString();
