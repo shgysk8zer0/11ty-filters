@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.1.3] - 2025-12-14
+
+### Added
+- Add rollup as dev dependency (how was this missing?)
+
 ## [v0.1.2] - 2025-12-04
 
 ### Fixed
